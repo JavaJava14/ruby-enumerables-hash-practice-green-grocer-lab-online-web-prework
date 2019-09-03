@@ -1,5 +1,19 @@
 require_relative 'grocer'
 
+def consolidate_cart(cart)
+  hash = {}
+  cart.each do |item_hash|
+    item_hash.each do |name, price_hash|
+      if hash[name].nil?
+        hash[name] = price_hash.merge({:count => 1})
+      else
+        hash[name][:count] += 1
+      end
+    end
+  end
+  hash
+end
+
 def items
 	[
 		{"AVOCADO" => {:price => 3.00, :clearance => true}},
@@ -20,20 +34,6 @@ def coupons
 		{:item => "BEER", :num => 2, :cost => 20.00},
 		{:item => "CHEESE", :num => 3, :cost => 15.00}
 	]
-end
-
-def consolidate_cart(cart)
-  hash = {}
-  cart.each do |item_hash|
-    item_hash.each do |name, price_hash|
-      if hash[name].nil?
-        hash[name] = price_hash.merge({:count => 1})
-      else
-        hash[name][:count] += 1
-      end
-    end
-  end
-  hash
 end
 
 def generate_cart
